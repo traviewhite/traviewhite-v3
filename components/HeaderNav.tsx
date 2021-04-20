@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+import Tnav from 'components/tNav'
 import { Props } from 'components/Links'
 
 const HeaderNav: React.FC<Props> = ({ links }) => {
@@ -8,6 +10,8 @@ const HeaderNav: React.FC<Props> = ({ links }) => {
   return (
     <header className=''>
       <nav className='w-full mb-6 flex items-center font-bold text-lg tracking-tight'>
+        <Tnav />
+
         <div className='hidden sm:block'>
           {links &&
             links.map((link) => (

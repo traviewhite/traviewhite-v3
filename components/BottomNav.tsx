@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
 import { Props } from 'components/Links'
 
 const BottomNav: React.FC<Props> = ({ links }) => {
