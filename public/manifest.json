@@ -1,0 +1,11 @@
+{
+  "name": "Travis White",
+  "short_name": "Travis White",
+  "description": "A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a front-end software engineer and graphic designer.",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#ffffff"
+}
