@@ -1,4 +1,10 @@
+import Page from 'components/Page'
+
 const Index: React.FC = () => {
-  return <h1>Hello</h1>
+  return (
+    <Page>
+      <h1>Hello</h1>
+    </Page>
+  )
 }
 export default Index
