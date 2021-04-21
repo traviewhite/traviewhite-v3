@@ -26,13 +26,13 @@ const DesignPages = ({ post }: Props) => {
 
   if (!router.isFallback && !post) {
     return (
-      <Page title='Error'>
+      <>
         <p className='error-404'>404!</p>
-      </Page>
+      </>
     )
   }
   return (
-    <Page title={post.title}>
+    <>
       {router.isFallback ? (
         <p className='loading'>Loading...</p>
       ) : (
@@ -56,7 +56,7 @@ const DesignPages = ({ post }: Props) => {
           </motion.div>
         </section>
       )}
-    </Page>
+    </>
   )
 }
 
