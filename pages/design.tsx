@@ -62,12 +62,8 @@ const DesignItems: React.FC<Props> = ({ data }) => {
 
 export default Design
 
-interface Index {
-  fields: []
-}
-
 export const getStaticProps: GetStaticProps = async () => {
-  const data: Index[] | undefined = await fetchEntriesDesign()
+  const data = await fetchEntriesDesign()
 
   return {
     props: {

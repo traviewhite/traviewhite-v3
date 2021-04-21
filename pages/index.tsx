@@ -176,13 +176,9 @@ const IntroFeatured: React.FC<PropsF> = ({ featured }) => {
 
 export default Index
 
-interface Index {
-  fields: {}
-}
-
 export const getStaticProps: GetStaticProps = async () => {
-  const dataIntro: Index[] | undefined = await fetchEntriesIndex()
-  const dataFeatured: Index[] | undefined = await fetchEntriesIndexFeatured()
+  const dataIntro = await fetchEntriesIndex()
+  const dataFeatured = await fetchEntriesIndexFeatured()
 
   return {
     props: {

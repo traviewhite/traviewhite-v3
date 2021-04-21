@@ -115,12 +115,8 @@ const CodeItems: React.FC<Props> = ({ data }) => {
 
 export default Code
 
-interface Index {
-  fields: []
-}
-
 export const getStaticProps: GetStaticProps = async () => {
-  const data: Index[] | undefined = await fetchEntriesCode()
+  const data = await fetchEntriesCode()
 
   return {
     props: {
