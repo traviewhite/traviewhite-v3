@@ -12,13 +12,17 @@ interface Props {
   title: string
 }
 interface P {
-  image: [{ secure_url: string; width: number; height: number }]
+  image: []
+  secure_url: string
+  url: string
+  width: number
+  height: number
   title: string
-  description: string
   slug: string
+  description: string
 }
 
-const DesignPages: React.FC<Props> = ({ post }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const DesignPages: React.FC<Props> = ({ post }) => {
   const router = useRouter()
 
   if (!router.isFallback && !post) {
@@ -29,27 +33,25 @@ const DesignPages: React.FC<Props> = ({ post }: InferGetServerSidePropsType<type
       {router.isFallback ? (
         <p className='loading'>Loading...</p>
       ) : (
-        <>
-          <div className=''>
-            <div className='mb-6 p-6 sm:p-10 rounded-lg bg-gray-400 dark:bg-gray-800 shadow-lg'>
-              <h2>{post.title}</h2>
-              <div className='design-text-description'>
-                <p className='text-gray-400'>{post.description}</p>
-                {/* <div className='design-tags'>
+        <section className=''>
+          <div className='mb-6 p-6 sm:p-10 rounded-lg bg-gray-400 dark:bg-gray-800 shadow-lg'>
+            <h2>{post.title}</h2>
+            <div className='design-text-description'>
+              <p className='text-gray-400'>{post.description}</p>
+              {/* <div className='design-tags'>
                   <p>ROLE: Art Direction</p>
                   <p>YEAR: {post.year}</p>
                 </div> */}
-              </div>
             </div>
-            <motion.div animate='animate' initial='initial' exit={{ opacity: 0 }} variants={stagger}>
-              {post.image.map((item: { secure_url: string; width: number; height: number; url: string }, i: any) => (
-                <motion.div key={i} variants={fadeIn}>
-                  <Image className='' src={item.secure_url} width={item.width} height={item.height} alt={item.url} />
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
-        </>
+          <motion.div animate='animate' initial='initial' exit={{ opacity: 0 }} variants={stagger}>
+            {post.image.map((item: P, i: any) => (
+              <motion.div key={i} variants={fadeIn}>
+                <Image className='' src={item.secure_url} width={item.width} height={item.height} alt={item.url} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
       )}
     </Page>
   )
