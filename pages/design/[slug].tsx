@@ -21,7 +21,7 @@ interface P {
   description: string
 }
 
-const DesignPages: React.FC<Props> = ({ post }) => {
+const DesignPages = ({ post }: Props) => {
   const router = useRouter()
 
   if (!router.isFallback && !post) {

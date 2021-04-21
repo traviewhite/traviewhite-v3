@@ -10,7 +10,7 @@ const Index: React.FC = ({ index, featured }: InferGetServerSidePropsType<typeof
   const introProp = index[0].fields
 
   return (
-    <Page>
+    <Page title=''>
       <IntroSection data={introProp} />
       {featured &&
         featured.map((item: { fields: PF; sys: { id: string } }) => (
