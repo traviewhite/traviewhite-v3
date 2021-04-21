@@ -16,7 +16,7 @@ interface P {
   url: string
   width: number
   height: number
-  title: string
+  title?: string
   slug: string
   description: string
 }
@@ -28,14 +28,14 @@ const DesignPages = ({ post }: Props) => {
     return <p className='error-404'>404!</p>
   }
   return (
-    <Page title={post.title}>
+    <Page title={`${post.title}`}>
       {router.isFallback ? (
         <p className='loading'>Loading...</p>
       ) : (
         <section className=''>
           <div className='mb-6 p-6 sm:p-10 rounded-lg bg-gray-400 dark:bg-gray-800 shadow-lg'>
             <h2>{post.title}</h2>
-            <div className='design-text-description'>
+            <div className=''>
               <p className='text-gray-400'>{post.description}</p>
               {/* <div className='design-tags'>
                   <p>ROLE: Art Direction</p>
