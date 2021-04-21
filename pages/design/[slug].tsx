@@ -16,7 +16,7 @@ interface P {
   url: string
   width: number
   height: number
-  title?: string
+  title: string
   slug: string
   description: string
 }
@@ -25,10 +25,14 @@ const DesignPages = ({ post }: Props) => {
   const router = useRouter()
 
   if (!router.isFallback && !post) {
-    return <p className='error-404'>404!</p>
+    return (
+      <Page title='Error'>
+        <p className='error-404'>404!</p>
+      </Page>
+    )
   }
   return (
-    <Page title={`${post.title}`}>
+    <Page title={post.title}>
       {router.isFallback ? (
         <p className='loading'>Loading...</p>
       ) : (
