@@ -9,7 +9,6 @@ import { client } from 'utils/contentfulPosts'
 
 interface Props {
   post: P
-  title: string
 }
 interface P {
   image: []
