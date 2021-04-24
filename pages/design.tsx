@@ -1,21 +1,121 @@
+import { useState, useEffect } from 'react'
 import { GetStaticProps, InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 import Page from 'components/Page'
-import { fetchEntriesDesign } from 'utils/contentfulPosts'
+import { client } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
 
-const Design: React.FC = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+  const [date, setDate] = useState<number>(2021)
+
+  // 📝 TOGGLE
+  // const useToggle = (initial = false) => {
+  //   const [option, setOption] = useState<boolean>(initial)
+  //   const toggle = useCallback(() => {
+  //     setOption((o: any) => !o)
+  //   }, [])
+  //   return [option, toggle]
+  // }
+  // const [isOn, toggleIsOn] = useToggle(true)
+
+  // 📝 FIRST TIME FILTERING YEARS USED THIS BUT BC OF LESS CODE I QUERIED FROM CONTENTFUL API
+  // const yearsSort: any = design.items
+  //   .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
+  //   .map((z: any) => (
+  //     <button
+  //       onClick={() => setDate(z.fields.year)}
+  //       id={z.fields.year}
+  //       className='px-6 py-1.5 bg-gray-600 rounded-md text-gray-300 tracking-wide font-semibold hover:text-gray-100 hover:bg-red-600'
+  //     >
+  //       {z.fields.year}
+  //     </button>
+  //   ))
+
+  const router = useRouter()
+  const years = design.dataY
+
+  const YearsHeader = () =>
+    years.items && years.items.length > 0 ? (
+      years.items
+        .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
+        .map((y: any, i: any) => {
+          // useEffect(() => {
+          //   router.push(`#${y.fields.year}`, undefined, { shallow: true })
+          // }, [])
+          // useEffect(() => {
+          //   // router.push(`#${y.fields.year}`, undefined, { shallow: true })
+          // }, [router.pathname])
+
+          //📝 EXPERIMENTING WITH DIFFERENT SHALLOW ROUTING METHODS TO GET THE YEARS FILTER TO CHANGE COLOR WHEN ACTIVE 😤
+          const handleClick = (e: any) => {
+            setDate(y.fields.year)
+            e.preventDefault()
+            router.push(`#${y.fields.year}`, undefined, { shallow: true })
+            // router.asPath.match(/#([a-z0-9]+)/gi)
+          }
+          console.log(y.fields)
+          return (
+            <Link key={i} href={`#${y.fields.year}`}>
+              <a
+                className={`px-6 py-1.5 transition rounded-md tracking-wide 
+          font-semibold hover:text-gray-100 hover:bg-red-700
+            ${
+              router.route === `design#${y.fields.year}`
+                ? 'dark:text-gray-100 bg-red-600'
+                : 'dark:text-gray-300 bg-gray-600'
+            }`}
+                onClick={(e) => handleClick(e)}
+                id={y.fields.year}
+              >
+                {y.fields.year}
+              </a>
+            </Link>
+          )
+        })
+    ) : (
+      <p>Error: no years found</p>
+    )
+
+  const DesignContent = () =>
+    design.data.items && design.data.items.length > 0 ? (
+      design.data.items
+        // 📝 DO NOT NEED THIS FILTER ANYMORE THANKS TO CONTENTFUL API BUT LEAVING IT BC WHAT IF
+        .filter((t: any) => t.fields.title.includes('Design'))
+        .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
+        .filter((b: any) => [b.fields.year].includes(date))
+        .map((y: any, i: any) => {
+          const content = [y.fields].map((s: any) =>
+            s.content.map((c: any, i: any) => <DesignItems key={i} data={c.fields} />)
+          )
+          return (
+            <li key={i} className=''>
+              {/* 📝 DISPLAY CURRENT YEAR AT TOP OF PAGE */}
+              {/* <h2 className='px-8 py-2 mx-auto mb-5 bg-red-500 rounded-lg tracking-wide'>{y.fields.year}</h2> */}
+              <ul>{content}</ul>
+            </li>
+          )
+        })
+    ) : (
+      <div className='p-2 flex flex-col justify-center items-center'>
+        <p className='text-xl font-mono font-bold'>Nothing to see here </p>
+        <p className='mt-4 text-6xl'>😢</p>
+      </div>
+    )
+
   return (
     <Page title='Design'>
       <motion.ul className='' animate='animate' initial='initial' exit={{ opacity: 0 }} variants={stagger}>
-        {design && design.length > 0 ? (
-          design.map((item: { fields: P; sys: { id: string } }) => <DesignItems key={item.sys.id} data={item.fields} />)
-        ) : (
-          <p>Nothing to see here</p>
-        )}
+        <div className='mb-6 inline-grid grid-flow-col gap-2'>
+          {/* <button onClick={() => toggleIsOn(!true)} className='px-8 py-2 bg-red-500 rounded-lg tracking-wide'>
+            ALL
+          </button> */}
+          <YearsHeader />
+        </div>
+        <DesignContent />
       </motion.ul>
     </Page>
   )
@@ -29,9 +129,10 @@ interface P {
   title: string
   description: string
   slug: string
+  year: number
 }
 
-const DesignItems: React.FC<Props> = ({ data }) => {
+const DesignItems = ({ data }: Props) => {
   return (
     <Link href='/design/[slug]' as={`/design/${data.slug}`}>
       <motion.li
@@ -63,11 +164,20 @@ const DesignItems: React.FC<Props> = ({ data }) => {
 export default Design
 
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await fetchEntriesDesign()
-
+  // have all data for years come in here
+  const data = await client.getEntries({
+    content_type: 'year',
+    'fields.title[match]': 'design',
+  })
+  // grab the years here
+  const dataY = await client.getEntries({
+    content_type: 'year',
+    'fields.title[match]': 'design',
+    select: 'sys.id,fields.year',
+  })
   return {
     props: {
-      design: data ?? null,
+      design: { data, dataY } ?? null,
     },
     revalidate: 1,
   }

@@ -1,8 +1,8 @@
 # Travis White Personal Site v3
 
-## [traviewhite.com](https://www.traviewhite.com/)
+![Home](public/v3.png)
 
-(public/v3.png)
+### [traviewhite.com](https://www.traviewhite.com/)
 
 > This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 > Deployed with [Vercel](https://www.vercel.com).

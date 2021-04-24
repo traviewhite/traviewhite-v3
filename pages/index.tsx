@@ -1,17 +1,24 @@
 import { GetStaticProps, InferGetServerSidePropsType } from 'next'
+import { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
+import Modal from 'react-modal'
+import { motion } from 'framer-motion'
 
 import Page from 'components/Page'
+import { AboutContent } from 'pages/about'
 import { fetchEntriesIndex, fetchEntriesIndexFeatured } from 'utils/contentfulPosts'
+import { fetchEntriesAbout } from 'utils/contentfulPosts'
+import { fadeIn, stagger } from 'components/Animations/Motion'
 
-const Index: React.FC = ({ index, featured }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const Index = ({ index, featured, about }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   const introProp = index[0].fields
 
   return (
     <Page title=''>
-      <IntroSection data={introProp} />
+      <IntroSection data={introProp} about={about[0].fields} />
       {featured &&
         featured.map((item: { fields: PF; sys: { id: string } }) => (
           <IntroFeatured key={item.sys.id} featured={item.fields} />
@@ -23,6 +30,8 @@ const Index: React.FC = ({ index, featured }: InferGetServerSidePropsType<typeof
 
 interface Props {
   data: P
+  about?: any
+  close?: any
 }
 interface P {
   introTitle: string
@@ -33,7 +42,29 @@ interface P {
   email: string
 }
 
-const IntroSection: React.FC<Props> = ({ data }) => {
+const IntroSection = ({ data, about }: Props) => {
+  const [modalIsOpen, setIsOpen] = useState(false)
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+  // Modal.setAppElement('#modal-root')
+  // useEffect(() => {
+  //   const props = {}
+  //   ReactDOM.render(<Index {...props} />, document.getElementById('modal-root'))
+  // }, [])
+
+  useEffect(() => {
+    modalIsOpen ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'unset')
+  }, [modalIsOpen])
+
   return (
     <section className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
       <div
@@ -49,15 +80,26 @@ const IntroSection: React.FC<Props> = ({ data }) => {
         <div className='flex justify-between flex-col sm:flex-row'>
           <div className='w-full ml-0 mt-5 px-1 sm:mt-2 sm:ml-6 sm:px-0'>
             <ReactMarkdown children={data.introDescription} />
-            <Link href='/about'>
-              <button
-                className='flex mt-8 px-6 py-2 font-semibold text-sm rounded-md  
+            {/* <Link href='/about'> */}
+            <button
+              onClick={openModal}
+              className='flex mt-8 px-6 py-2 font-semibold text-sm rounded-md  
             bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
             dark:hover:bg-blue-700 hover:shadow-md transition'
-              >
-                READ MORE →
-              </button>
-            </Link>
+            >
+              READ MORE →
+            </button>
+            <Modal
+              className='max-w-xl m-4 rounded-xl'
+              overlayClassName='Overlay'
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              contentLabel='modal-root'
+            >
+              <AboutContent data={about} close={closeModal} />
+            </Modal>
+            {/* </Link> */}
           </div>
         </div>
 
@@ -81,7 +123,7 @@ const IntroSection: React.FC<Props> = ({ data }) => {
   )
 }
 
-const IntroContact: React.FC<Props> = ({ data }) => {
+const IntroContact = ({ data }: Props) => {
   return (
     <section className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
       <div
@@ -121,7 +163,7 @@ interface PF {
   itemDescription: string
 }
 
-const IntroFeatured: React.FC<PropsF> = ({ featured }) => {
+const IntroFeatured = ({ featured }: PropsF) => {
   return (
     <section className='mb-10 pt-6 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
       <div
@@ -179,11 +221,13 @@ export default Index
 export const getStaticProps: GetStaticProps = async () => {
   const dataIntro = await fetchEntriesIndex()
   const dataFeatured = await fetchEntriesIndexFeatured()
+  const dataAbout = await fetchEntriesAbout()
 
   return {
     props: {
       index: dataIntro ?? null,
       featured: dataFeatured ?? null,
+      about: dataAbout ?? null,
     },
     revalidate: 1,
   }
