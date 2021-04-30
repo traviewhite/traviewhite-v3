@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Props } from 'components/Links'
+import { Props } from 'components/Navigation/Links'
 
-const BottomNav: React.FC<Props> = ({ links }) => {
+const BottomNav = ({ links }: Props) => {
   const router = useRouter()
 
   return (

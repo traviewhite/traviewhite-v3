@@ -5,13 +5,27 @@ import { motion } from 'framer-motion'
 import Page from 'components/Page'
 import { fetchEntriesCode } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
+import InView from 'components/Animations/InView'
 
-const Code: React.FC = ({ code }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+const Code = ({ code }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   return (
     <Page title='Code'>
       <motion.ul className='' animate='animate' initial='initial' exit={{ opacity: 0 }} variants={stagger}>
         {code && code.length > 0 ? (
-          code.map((item: { fields: P; sys: { id: string } }) => <CodeItems key={item.sys.id} data={item.fields} />)
+          code.slice(0, 3).map((item: { fields: P; sys: { id: string } }) => (
+            <InView>
+              <CodeItems key={item.sys.id} data={item.fields} />
+            </InView>
+          ))
+        ) : (
+          <p>Nothing to see here</p>
+        )}
+        {code && code.length > 0 ? (
+          code.slice(3).map((item: { fields: P; sys: { id: string } }) => (
+            <InView>
+              <CodeItems key={item.sys.id} data={item.fields} />
+            </InView>
+          ))
         ) : (
           <p>Nothing to see here</p>
         )}
@@ -32,16 +46,21 @@ interface P {
   link: string
 }
 
-const CodeItems: React.FC<Props> = ({ data }) => {
+const CodeItems = ({ data }: Props) => {
   interface GitProp {
     link: string
   }
-  const GitLink: React.FC<GitProp> = ({ link }) => {
+  const GitLink = ({ link }: GitProp) => {
     if (link === '/') {
       return null
     } else {
       return (
-        <a href={link} target='_blank' rel='noreferrer'>
+        <a
+          className='hover:text-gray-800 transform transition hover:-translate-y-0.5'
+          href={link}
+          target='_blank'
+          rel='noreferrer'
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-5 w-5'
@@ -90,7 +109,12 @@ const CodeItems: React.FC<Props> = ({ data }) => {
           </div>
           <div className='flex items-center'>
             <GitLink link={data.gitLink} />
-            <a className='ml-1' href={data.link} target='_blank' rel='noreferrer'>
+            <a
+              className='ml-1 hover:text-gray-800 transform transition hover:-translate-y-0.5'
+              href={data.link}
+              target='_blank'
+              rel='noreferrer'
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'

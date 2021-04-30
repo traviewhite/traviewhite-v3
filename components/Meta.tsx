@@ -84,7 +84,7 @@ const Meta = () => (
     <meta name='msapplication-tap-highlight' content='no' />
 
     <link rel='mask-icon' href='/static/icons/safari-pinned-tab.svg' color='#5bbad5' />
-    <link rel='shortcut icon' href='/favicon.ico' />
+    <link rel='shortcut icon' href='../favicon/favicon.ico' />
   </Head>
 )
 

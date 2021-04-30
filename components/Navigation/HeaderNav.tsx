@@ -1,20 +1,19 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import Tnav from 'components/tNav'
-import { Props } from 'components/Links'
+import Tnav from 'components/Navigation/tNav'
+import MoreMenu from 'components/Navigation/MoreMenu'
+import { Props, P } from 'components/Navigation/Links'
 
-const HeaderNav: React.FC<Props> = ({ links }) => {
+const HeaderNav = ({ links }: Props) => {
   const router = useRouter()
-
   return (
     <header className=''>
-      <nav className='w-full mb-6 flex items-center font-bold text-lg tracking-tight'>
+      <nav className='w-full mb-6 flex items-center font-semibold text-md tracking-tight'>
         <Tnav />
-
         <div className='hidden sm:block'>
           {links &&
-            links.map((link) => (
+            links.slice(0, 2).map((link: P) => (
               <Link key={link.label} href={link.href}>
                 <a
                   className={`ml-3 transition ${
@@ -28,6 +27,7 @@ const HeaderNav: React.FC<Props> = ({ links }) => {
               </Link>
             ))}
         </div>
+        <MoreMenu links={links} />
       </nav>
     </header>
   )

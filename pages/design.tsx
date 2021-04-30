@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { GetStaticProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -8,19 +8,20 @@ import { motion } from 'framer-motion'
 import Page from 'components/Page'
 import { client } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
+import InView from 'components/Animations/InView'
 
 const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   const [date, setDate] = useState<number>(2021)
 
   // 📝 TOGGLE
-  // const useToggle = (initial = false) => {
+  // const useToggle = (initial = true) => {
   //   const [option, setOption] = useState<boolean>(initial)
   //   const toggle = useCallback(() => {
   //     setOption((o: any) => !o)
   //   }, [])
   //   return [option, toggle]
   // }
-  // const [isOn, toggleIsOn] = useToggle(true)
+  // const [isOn, toggleIsOn]: any = useToggle()
 
   // 📝 FIRST TIME FILTERING YEARS USED THIS BUT BC OF LESS CODE I QUERIED FROM CONTENTFUL API
   // const yearsSort: any = design.items
@@ -35,94 +36,105 @@ const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) 
   //     </button>
   //   ))
 
-  const router = useRouter()
-  const years = design.dataY
-
-  const YearsHeader = () =>
-    years.items && years.items.length > 0 ? (
-      years.items
-        .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
-        .map((y: any, i: any) => {
-          // useEffect(() => {
-          //   router.push(`#${y.fields.year}`, undefined, { shallow: true })
-          // }, [])
-          // useEffect(() => {
-          //   // router.push(`#${y.fields.year}`, undefined, { shallow: true })
-          // }, [router.pathname])
-
-          //📝 EXPERIMENTING WITH DIFFERENT SHALLOW ROUTING METHODS TO GET THE YEARS FILTER TO CHANGE COLOR WHEN ACTIVE 😤
-          const handleClick = (e: any) => {
-            setDate(y.fields.year)
-            e.preventDefault()
-            router.push(`#${y.fields.year}`, undefined, { shallow: true })
-            // router.asPath.match(/#([a-z0-9]+)/gi)
-          }
-          console.log(y.fields)
-          return (
-            <Link key={i} href={`#${y.fields.year}`}>
-              <a
-                className={`px-6 py-1.5 transition rounded-md tracking-wide 
-          font-semibold hover:text-gray-100 hover:bg-red-700
-            ${
-              router.route === `design#${y.fields.year}`
-                ? 'dark:text-gray-100 bg-red-600'
-                : 'dark:text-gray-300 bg-gray-600'
-            }`}
-                onClick={(e) => handleClick(e)}
-                id={y.fields.year}
-              >
-                {y.fields.year}
-              </a>
-            </Link>
-          )
-        })
-    ) : (
-      <p>Error: no years found</p>
-    )
-
-  const DesignContent = () =>
-    design.data.items && design.data.items.length > 0 ? (
-      design.data.items
-        // 📝 DO NOT NEED THIS FILTER ANYMORE THANKS TO CONTENTFUL API BUT LEAVING IT BC WHAT IF
-        .filter((t: any) => t.fields.title.includes('Design'))
-        .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
-        .filter((b: any) => [b.fields.year].includes(date))
-        .map((y: any, i: any) => {
-          const content = [y.fields].map((s: any) =>
-            s.content.map((c: any, i: any) => <DesignItems key={i} data={c.fields} />)
-          )
-          return (
-            <li key={i} className=''>
-              {/* 📝 DISPLAY CURRENT YEAR AT TOP OF PAGE */}
-              {/* <h2 className='px-8 py-2 mx-auto mb-5 bg-red-500 rounded-lg tracking-wide'>{y.fields.year}</h2> */}
-              <ul>{content}</ul>
-            </li>
-          )
-        })
-    ) : (
-      <div className='p-2 flex flex-col justify-center items-center'>
-        <p className='text-xl font-mono font-bold'>Nothing to see here </p>
-        <p className='mt-4 text-6xl'>😢</p>
-      </div>
-    )
-
   return (
     <Page title='Design'>
       <motion.ul className='' animate='animate' initial='initial' exit={{ opacity: 0 }} variants={stagger}>
         <div className='mb-6 inline-grid grid-flow-col gap-2'>
-          {/* <button onClick={() => toggleIsOn(!true)} className='px-8 py-2 bg-red-500 rounded-lg tracking-wide'>
+          {/* <button onClick={toggleIsOn} className='px-8 py-2 bg-red-500 rounded-lg tracking-wide'>
             ALL
           </button> */}
-          <YearsHeader />
+
+          <YearsHeader design={design.dataY.items} setDate={setDate} />
         </div>
-        <DesignContent />
+
+        <DesignContent design={design.data.items} date={date} />
       </motion.ul>
     </Page>
   )
 }
 
+const YearsHeader = ({ design, setDate }: any) => {
+  const router = useRouter()
+
+  return design && design.length > 0 ? (
+    design
+      .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
+      .map((y: { fields: { year: any } }, i: any) => {
+        // useEffect(() => {
+        //   router.push(`#${y.fields.year}`, undefined, { shallow: true })
+        // }, [])
+        // useEffect(() => {
+        //   // router.push(`#${y.fields.year}`, undefined, { shallow: true })
+        // }, [router.pathname])
+
+        //📝 EXPERIMENTING WITH DIFFERENT SHALLOW ROUTING METHODS TO GET THE YEARS FILTER TO CHANGE COLOR WHEN ACTIVE 😤
+        const handleClick = (e: any) => {
+          setDate(y.fields.year)
+          e.preventDefault()
+          router.push(`#${y.fields.year}`, undefined, { shallow: true })
+          router.asPath.match(/#([a-z0-9]+)/gi)
+        }
+        return (
+          <Link key={i} href={`#${y.fields.year}`}>
+            <a
+              className={`px-6 py-1.5 transition rounded-md tracking-wide 
+          font-semibold hover:text-gray-100 hover:bg-gray-700
+            ${
+              router.route === `design#${y.fields.year}`
+                ? 'dark:text-gray-100 bg-red-600'
+                : 'dark:text-gray-300 bg-gray-800'
+            }`}
+              onClick={(e) => handleClick(e)}
+              id={y.fields.year}
+            >
+              {y.fields.year}
+            </a>
+          </Link>
+        )
+      })
+  ) : (
+    <p>Error: no years found</p>
+  )
+}
+
+interface Y {
+  fields: { year: number }
+  sys: { id: string }
+}
+const DesignContent = ({ design, date }: any) => {
+  return design && design.length > 0 ? (
+    design
+      // 📝 DO NOT NEED THIS FILTER ANYMORE THANKS TO CONTENTFUL API BUT LEAVING IT BC WHAT IF
+      .filter((t: { fields: { title: string } }) => t.fields.title.includes('Design'))
+      .sort((a: Y, b: Y) => b.fields.year - a.fields.year)
+      .filter((y: Y) => [y.fields.year].includes(date))
+      .map((y: Y) => {
+        const content = [y.fields].map((c: any) =>
+          c.content.map((c: { sys: { id: string }; fields: P }) => (
+            <InView>
+              <DesignItems key={c.sys.id} data={c.fields} />
+            </InView>
+          ))
+        )
+        return (
+          <li key={y.sys.id} className=''>
+            {/* 📝 DISPLAY CURRENT YEAR AT TOP OF PAGE */}
+            {/* <h2 className='px-8 py-2 mx-auto mb-5 bg-red-500 rounded-lg tracking-wide'>{y.fields.year}</h2> */}
+            <ul>{content}</ul>
+          </li>
+        )
+      })
+  ) : (
+    <div className='p-2 flex flex-col justify-center items-center'>
+      <p className='text-xl font-mono font-bold'>Nothing to see here </p>
+      <p className='mt-4 text-6xl'>😢</p>
+    </div>
+  )
+}
+
 interface Props {
   data: P
+  design?: P
 }
 interface P {
   image: [{ secure_url: string; width: number; height: number }]
@@ -131,7 +143,6 @@ interface P {
   slug: string
   year: number
 }
-
 const DesignItems = ({ data }: Props) => {
   return (
     <Link href='/design/[slug]' as={`/design/${data.slug}`}>

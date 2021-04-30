@@ -1,4 +1,6 @@
 import { GetStaticProps, InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import { motion } from 'framer-motion'
@@ -29,7 +31,9 @@ interface P {
   description: string
 }
 
-export const AboutContent: React.FC<Props> = ({ data, close }) => {
+export const AboutContent = ({ data, close }: Props) => {
+  const router = useRouter()
+
   return (
     <motion.section
       className='p-10 sm:p-14 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'
@@ -40,7 +44,10 @@ export const AboutContent: React.FC<Props> = ({ data, close }) => {
     >
       <button
         onClick={close}
-        className='absolute p-1 -top-3 -left-3 z-10 text-red-100 bg-red-500 rounded-full hover:bg-red-600 hover:text-red-200'
+        className={`absolute p-1 -top-3 -left-3 z-10 ${
+          router.route === '/about' ? 'hidden' : 'block'
+        } rounded-full  text-red-100 bg-red-500 
+        hover:bg-red-600 hover:text-red-200`}
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -52,32 +59,34 @@ export const AboutContent: React.FC<Props> = ({ data, close }) => {
           <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
         </svg>
       </button>
-      <div
-        className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
+      <Link href='/about'>
+        <div
+          className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
           absolute top-0 left-0'
-      >
-        <h2
-          className='text-gray-400 dark:text-gray-300 font-sans text-base 
-          font-bold tracking-widest'
         >
-          {data.title}
-        </h2>
-      </div>
+          <h2
+            className='text-gray-400 dark:text-gray-300 font-sans text-base 
+          font-bold tracking-widest'
+          >
+            {data.title}
+          </h2>
+        </div>
+      </Link>
       {/* <motion.article className='' variants={fadeIn}>
-      <Image
-        src={aboutInfo.image[0].secure_url}
-        alt={aboutInfo.alt}
-        height={aboutInfo.image[0].height}
-        width={aboutInfo.image[0].width}
-        objectFit='cover'
-        objectPosition='50% 50%'
-      />
-    </motion.article> */}
+        <Image
+          src={aboutInfo.image[0].secure_url}
+          alt={aboutInfo.alt}
+          height={aboutInfo.image[0].height}
+          width={aboutInfo.image[0].width}
+          objectFit='cover'
+          objectPosition='50% 50%'
+        />
+      </motion.article> */}
       <motion.article className='mt-12 sm:mt-10' variants={fadeIn}>
         <ReactMarkdown children={data.description} />
         <div className='flex flex-wrap justify-start mt-8'>
           <a
-            className='flex mr-4 px-6 py-2 font-semibold text-sm rounded-md  
+            className='flex m-2 ml-0 px-6 py-2 font-semibold text-sm rounded-md  
         bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
         dark:hover:bg-blue-700 hover:shadow-md transition'
             href='/Travis White - Resume.pdf'
@@ -87,7 +96,7 @@ export const AboutContent: React.FC<Props> = ({ data, close }) => {
             RESUME.pdf
           </a>
           <a
-            className='flex px-6 py-2 font-semibold text-sm rounded-md  
+            className='flex m-2 ml-0 px-6 py-2 font-semibold text-sm rounded-md  
         bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
         dark:hover:bg-blue-700 hover:shadow-md transition'
             href='https://www.notion.so/deanwilliams/Travis-White-4883c991b5c943b897404e9cc297f69b'

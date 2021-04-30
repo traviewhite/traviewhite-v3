@@ -6,7 +6,7 @@ module.exports = withPWA({
     dest: 'public',
   },
   future: {
-    // webpack5: true,
+    webpack5: true,
     strictPostcssConfiguration: true,
   },
   target: 'serverless',

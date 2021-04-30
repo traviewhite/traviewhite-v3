@@ -1,6 +1,5 @@
 import { GetStaticProps, InferGetServerSidePropsType } from 'next'
 import { useState, useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
@@ -9,21 +8,26 @@ import { motion } from 'framer-motion'
 
 import Page from 'components/Page'
 import { AboutContent } from 'pages/about'
+import InView from 'components/Animations/InView'
 import { fetchEntriesIndex, fetchEntriesIndexFeatured } from 'utils/contentfulPosts'
 import { fetchEntriesAbout } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
 
 const Index = ({ index, featured, about }: InferGetServerSidePropsType<typeof getStaticProps>) => {
-  const introProp = index[0].fields
-
   return (
     <Page title=''>
-      <IntroSection data={introProp} about={about[0].fields} />
+      <InView>
+        <IntroSection data={index[0].fields} about={about[0].fields} />
+      </InView>
       {featured &&
         featured.map((item: { fields: PF; sys: { id: string } }) => (
-          <IntroFeatured key={item.sys.id} featured={item.fields} />
+          <InView>
+            <IntroFeatured key={item.sys.id} featured={item.fields} />
+          </InView>
         ))}
-      <IntroContact data={introProp} />
+      <InView>
+        <IntroContact data={index[0].fields} />
+      </InView>
     </Page>
   )
 }
@@ -47,11 +51,7 @@ const IntroSection = ({ data, about }: Props) => {
   function openModal() {
     setIsOpen(true)
   }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
+  function afterOpenModal() {}
   function closeModal() {
     setIsOpen(false)
   }
@@ -66,7 +66,13 @@ const IntroSection = ({ data, about }: Props) => {
   }, [modalIsOpen])
 
   return (
-    <section className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
+    <motion.section
+      className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'
+      animate='animate'
+      initial='initial'
+      exit={{ opacity: 0 }}
+      variants={stagger}
+    >
       <div
         className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
           absolute top-0 left-0'
@@ -78,55 +84,73 @@ const IntroSection = ({ data, about }: Props) => {
 
       <div className='mt-12 sm:mt-10'>
         <div className='flex justify-between flex-col sm:flex-row'>
-          <div className='w-full ml-0 mt-5 px-1 sm:mt-2 sm:ml-6 sm:px-0'>
+          <motion.div className='w-full ml-0 mt-5 px-1 sm:mt-2 sm:ml-6 sm:px-0' variants={fadeIn}>
             <ReactMarkdown children={data.introDescription} />
-            {/* <Link href='/about'> */}
-            <button
-              onClick={openModal}
-              className='flex mt-8 px-6 py-2 font-semibold text-sm rounded-md  
+            <div className='block sm:hidden'>
+              <Link href='/about'>
+                <button
+                  className='flex mt-8 px-6 py-2 font-semibold text-sm rounded-md  
+        bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
+        dark:hover:bg-blue-700 hover:shadow-md transition'
+                >
+                  READ MORE →
+                </button>
+              </Link>
+            </div>
+            <div className='hidden sm:block'>
+              <button
+                onClick={openModal}
+                className='flex mt-8 px-6 py-2 font-semibold text-sm rounded-md  
             bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
             dark:hover:bg-blue-700 hover:shadow-md transition'
-            >
-              READ MORE →
-            </button>
-            <Modal
-              className='max-w-xl m-4 rounded-xl'
-              overlayClassName='Overlay'
-              isOpen={modalIsOpen}
-              onAfterOpen={afterOpenModal}
-              onRequestClose={closeModal}
-              contentLabel='modal-root'
-            >
-              <AboutContent data={about} close={closeModal} />
-            </Modal>
-            {/* </Link> */}
-          </div>
+              >
+                READ MORE →
+              </button>
+              <Modal
+                className='max-w-xl m-4 rounded-xl'
+                overlayClassName='Overlay'
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                contentLabel='modal-root'
+              >
+                <AboutContent data={about} close={closeModal} />
+              </Modal>
+            </div>
+          </motion.div>
         </div>
 
         <div className='mt-14 flex justify-center flex-col items-center'>
           <h4 className='mb-4 text-gray-300 font-semibold tracking-tighter'>{data.skillsTitle}</h4>
-          <div className='max-w-md flex flex-wrap justify-evenly'>
+          <motion.div
+            className='max-w-md flex flex-wrap justify-evenly'
+            animate='animate'
+            initial='initial'
+            exit={{ opacity: 0 }}
+            variants={stagger}
+          >
             {data.skills &&
               data.skills.map((skill: string) => (
-                <p
+                <motion.p
+                  key={skill}
                   className='mb-3 px-3 py-1 bg-yellow-400 rounded-md text-md font-bold text-gray-700 
               border-gray-900 border-2'
-                  key={skill}
+                  variants={fadeIn}
                 >
                   {skill}
-                </p>
+                </motion.p>
               ))}
-          </div>
+          </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 const IntroContact = ({ data }: Props) => {
   return (
-    <section className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
-      <div
+    <motion.section className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
+      <motion.div
         className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
           absolute top-0 left-0'
       >
@@ -136,7 +160,7 @@ const IntroContact = ({ data }: Props) => {
         >
           CONTACT ME
         </h2>
-      </div>
+      </motion.div>
       <div className='mt-12 sm:mt-10 mx-auto max-w-md text-center font-semibold'>{data.contactStatus}</div>
       <a href={`mailto:${data.email}?Subject=Whats%20up!`}>
         <button
@@ -147,7 +171,7 @@ const IntroContact = ({ data }: Props) => {
           {data.email}
         </button>
       </a>
-    </section>
+    </motion.section>
   )
 }
 
@@ -165,7 +189,7 @@ interface PF {
 
 const IntroFeatured = ({ featured }: PropsF) => {
   return (
-    <section className='mb-10 pt-6 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
+    <motion.section className='mb-10 pt-6 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
       <div
         className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
           absolute top-0 left-0'
@@ -212,7 +236,7 @@ const IntroFeatured = ({ featured }: PropsF) => {
           </Link>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
