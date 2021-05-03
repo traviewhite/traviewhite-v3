@@ -12,6 +12,7 @@ import InView from 'components/Animations/InView'
 import { fetchEntriesIndex, fetchEntriesIndexFeatured } from 'utils/contentfulPosts'
 import { fetchEntriesAbout } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
+import Social from 'components/Navigation/Social'
 
 const Index = ({ index, featured, about }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   return (
@@ -149,7 +150,7 @@ const IntroSection = ({ data, about }: Props) => {
 
 const IntroContact = ({ data }: Props) => {
   return (
-    <motion.section className='mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
+    <motion.section className='flex flex-col items-center mb-10 p-6 sm:p-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative'>
       <motion.div
         className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
           absolute top-0 left-0'
@@ -171,6 +172,7 @@ const IntroContact = ({ data }: Props) => {
           {data.email}
         </button>
       </a>
+      <Social />
     </motion.section>
   )
 }

@@ -12,10 +12,10 @@
   "dependencies": {
     "@headlessui/react": "^1.1.1",
     "@types/react-modal": "^3.12.0",
-    "contentful": "^8.3.1",
+    "contentful": "^8.3.2",
     "framer-motion": "^4.1.11",
     "next": "^10.2.0",
-    "next-pwa": "^5.2.15",
+    "next-pwa": "^5.2.21",
     "next-themes": "0.0.14",
     "nprogress": "^0.2.0",
     "react": "17.0.2",

@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import Page from 'components/Page'
 import { fetchEntriesAbout } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
+import Social from 'components/Navigation/Social'
 
 const About = ({ about }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   return (
@@ -106,7 +107,7 @@ export const AboutContent = ({ data, close }: Props) => {
             RESUME.notion
           </a>
         </div>
-        {/* <Social /> */}
+        <Social />
       </motion.article>
     </motion.section>
   )
