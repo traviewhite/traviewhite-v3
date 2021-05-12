@@ -7,7 +7,7 @@ interface Props {
 }
 const InView = ({ children }: Props) => {
   const animation = useAnimation()
-  const [ref, inView, entry]: any = useInView({ triggerOnce: true, threshold: 0.25 })
+  const [ref, inView, entry]: any = useInView({ triggerOnce: true, threshold: 0.15 })
   useEffect(() => {
     if (inView) {
       animation.start('visible')
