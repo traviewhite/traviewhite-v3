@@ -3,31 +3,32 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 import Page from 'components/Page'
-import { fetchEntriesCode } from 'utils/contentfulPosts'
+import { client } from 'utils/contentfulPosts'
 import { fadeIn, stagger } from 'components/Animations/Motion'
 import InView from 'components/Animations/InView'
 
 const Code = ({ code }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+  const codeData = code.items[0].fields.content
   return (
     <Page title='Code'>
       <motion.ul className='' animate='animate' initial='initial' exit={{ opacity: 0 }} variants={stagger}>
-        {code && code.length > 0 ? (
-          code.slice(0, 3).map((item: { fields: P; sys: { id: string } }) => (
-            <InView>
-              <CodeItems key={item.sys.id} data={item.fields} />
+        {codeData && codeData.length > 0 ? (
+          codeData.slice(0, 3).map((item: { fields: P; sys: { id: string } }) => (
+            <InView key={item.sys.id}>
+              <CodeItems data={item.fields} />
             </InView>
           ))
         ) : (
           <p>Nothing to see here</p>
         )}
-        {code && code.length > 0 ? (
-          code.slice(3).map((item: { fields: P; sys: { id: string } }) => (
-            <InView>
-              <CodeItems key={item.sys.id} data={item.fields} />
+        {codeData && codeData.length > 0 ? (
+          codeData.slice(3).map((item: { fields: P; sys: { id: string } }) => (
+            <InView key={item.sys.id}>
+              <CodeItems data={item.fields} />
             </InView>
           ))
         ) : (
-          <p>Nothing to see here</p>
+          <p></p>
         )}
       </motion.ul>
     </Page>
@@ -140,8 +141,10 @@ const CodeItems = ({ data }: Props) => {
 export default Code
 
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await fetchEntriesCode()
-
+  const data = await client.getEntries({
+    content_type: 'year',
+    'fields.title[match]': 'code',
+  })
   return {
     props: {
       code: data ?? null,

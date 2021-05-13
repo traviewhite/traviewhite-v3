@@ -22,8 +22,8 @@ const Index = ({ index, featured, about }: InferGetServerSidePropsType<typeof ge
       </InView>
       {featured &&
         featured.map((item: { fields: PF; sys: { id: string } }) => (
-          <InView>
-            <IntroFeatured key={item.sys.id} featured={item.fields} />
+          <InView key={item.sys.id}>
+            <IntroFeatured featured={item.fields} />
           </InView>
         ))}
       <InView>
