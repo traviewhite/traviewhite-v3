@@ -1,11 +1,10 @@
 const path = require('path')
 
 module.exports = {
-  future: {
-    webpack5: true,
-    strictPostcssConfiguration: true,
-  },
-  async Headers() {
+  // future: {
+  //   strictPostcssConfiguration: true,
+  // },
+  async headers() {
     return [
       {
         source: '/',
@@ -19,9 +18,6 @@ module.exports = {
   },
   devIndicators: {
     autoPrerender: false,
-  },
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
     domains: ['res.cloudinary.com'],
