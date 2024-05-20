@@ -15,15 +15,15 @@ const HeaderNav = ({ links }: Props) => {
           {links &&
             links.slice(0, 2).map((link: P) => (
               <Link key={link.label} href={link.href}>
-                <a
-                  className={`ml-3 transition ${
+                <p
+                  className={`inline ml-3 transition ${
                     router.route === link.href
                       ? 'text-gray-800 dark:text-gray-50'
                       : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
                   }`}
                 >
                   {link.label}
-                </a>
+                </p>
               </Link>
             ))}
         </div>

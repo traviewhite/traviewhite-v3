@@ -197,14 +197,12 @@ const IntroFeatured = ({ featured }: PropsF) => {
           absolute top-0 left-0'
       >
         <Link href={featured.boxLink}>
-          <a>
-            <h2
-              className='text-gray-400 dark:text-gray-300 font-sans text-base 
+          <h2
+            className='text-gray-400 dark:text-gray-300 font-sans text-base 
                         font-bold tracking-widest'
-            >
-              {featured.boxTitle}
-            </h2>
-          </a>
+          >
+            {featured.boxTitle}
+          </h2>
         </Link>
       </div>
 
@@ -226,15 +224,13 @@ const IntroFeatured = ({ featured }: PropsF) => {
           <p className='text-gray-300 leading-snug'>{featured.itemDescription}</p>
 
           <Link href={featured.boxLink}>
-            <a>
-              <button
-                className='flex mt-8 mx-auto px-6 py-2 font-semibold text-sm rounded-md  
+            <button
+              className='flex mt-8 mx-auto px-6 py-2 font-semibold text-sm rounded-md  
             bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
             dark:hover:bg-blue-700 hover:shadow-md transition'
-              >
-                VIEW MORE →
-              </button>
-            </a>
+            >
+              VIEW MORE →
+            </button>
           </Link>
         </div>
       </div>

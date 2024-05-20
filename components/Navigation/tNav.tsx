@@ -20,17 +20,15 @@ const Tnav: React.FC = () => {
         className='py-7 px-16 mr-auto relative'
       >
         <Link href='/'>
-          <a>
-            <Image
-              src={tWhiteLogo}
-              alt='traviewhite T logo'
-              // height={60}
-              // width={130}
-              layout='fill'
-              objectFit='contain'
-              objectPosition='left center'
-            />
-          </a>
+          <Image
+            src={tWhiteLogo}
+            alt='traviewhite T logo'
+            // height={60}
+            // width={130}
+            layout='fill'
+            // objectFit='contain'
+            // objectPosition='left center'
+          />
         </Link>
       </motion.div>
     )
@@ -45,17 +43,15 @@ const Tnav: React.FC = () => {
         className='py-7 px-6 mr-auto relative'
       >
         <Link href='/'>
-          <a>
-            <Image
-              src={tLogo}
-              alt='traviewhite T logo'
-              // height={60}
-              // width={40}
-              layout='fill'
-              objectFit='contain'
-              objectPosition='left center'
-            />
-          </a>
+          <Image
+            src={tLogo}
+            alt='traviewhite T logo'
+            // height={60}
+            // width={40}
+            layout='fill'
+            // objectFit='contain'
+            // objectPosition='left center'
+          />
         </Link>
       </motion.div>
     )
