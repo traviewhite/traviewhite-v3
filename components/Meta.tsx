@@ -10,18 +10,18 @@ const Meta = () => (
     <meta name='author' content='Travis White' />
     <meta
       name='description'
-      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a front-end software engineer and graphic designer.'
+      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a full stack software developer and graphic designer.'
     />
     <meta
       name='keywords'
-      content='Travis White, traviswhite, traviewhite, travis, travie, white, web development, front-end, react, developer, graphic design, illustration, printmaking, printmaker, photography, art, design, freelancer'
+      content='Travis White, traviswhite, traviewhite, travis, travie, white, web development, frontend, backend, full stack, react, developer, graphic design, illustration, printmaking, printmaker, photography, art, design, freelancer'
     />
 
     {/* google */}
     {/* <meta itemprop='name' content='Travis White' />
     <meta
       itemprop='description'
-      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a front-end software engineer and graphic designer.'
+      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a full stack software developer and graphic designer.'
     />
     <meta
       itemprop='image'
@@ -34,7 +34,7 @@ const Meta = () => (
     <meta property='og:title' content='Travis White' />
     <meta
       property='og:description'
-      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a front-end software engineer and graphic designer.'
+      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a full stack software developer and graphic designer.'
     />
     <meta
       property='og:image'
@@ -48,7 +48,7 @@ const Meta = () => (
     <meta name='twitter:title' content='Travis White' />
     <meta
       name='twitter:description'
-      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a front-end software engineer and graphic designer.'
+      content='A personal site for Travis White that hosts everything from current work to thoughts and ideas. Travis White is a full stack software developer and graphic designer.'
     />
     <meta
       name='twitter:image'

@@ -30,10 +30,19 @@ interface P {
   title: string
   intro: string
   description: string
+  resume: {
+    fields: {
+      file: {
+        url: string
+      }
+    }
+  }
 }
 
 export const AboutContent = ({ data, close }: Props) => {
   const router = useRouter()
+  const { title, description, resume } = data
+  const resumeURL = resume.fields.file.url
 
   return (
     <motion.section
@@ -69,7 +78,7 @@ export const AboutContent = ({ data, close }: Props) => {
             className='text-gray-400 dark:text-gray-300 font-sans text-base 
           font-bold tracking-widest'
           >
-            {data.title}
+            {title}
           </h2>
         </div>
       </Link>
@@ -79,18 +88,16 @@ export const AboutContent = ({ data, close }: Props) => {
           alt={aboutInfo.alt}
           height={aboutInfo.image[0].height}
           width={aboutInfo.image[0].width}
-          objectFit='cover'
-          objectPosition='50% 50%'
         />
       </motion.article> */}
       <motion.article className='mt-12 sm:mt-10' variants={fadeIn}>
-        <ReactMarkdown children={data.description} />
+        <ReactMarkdown children={description} />
         <div className='flex flex-wrap justify-start mt-8'>
           <a
             className='flex m-2 ml-0 px-6 py-2 font-semibold text-sm rounded-md  
         bg-blue-500 dark:bg-blue-600  hover:bg-blue-600 
         dark:hover:bg-blue-700 hover:shadow-md transition'
-            href='/Travis White - Resume.pdf'
+            href={resumeURL}
             target='_blank'
             rel='noreferrer'
           >
