@@ -11,15 +11,13 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.2.0",
-    "@types/react-modal": "^3.12.0",
-    "contentful": "^8.3.5",
-    "framer-motion": "^4.1.16",
-    "next": "^10.2.0",
-    "next-pwa": "^5.2.21",
-    "next-themes": "0.0.14",
+    "contentful": "^10.11.1",
+    "framer-motion": "^11.2.4",
+    "next": "^14.2.3",
+    "next-themes": "^0.3.0",
     "nprogress": "^0.2.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-intersection-observer": "^8.31.1",
     "react-markdown": "^6.0.2",
     "react-modal": "^3.13.1",
@@ -27,14 +25,15 @@
     "sass": "^1.32.13"
   },
   "devDependencies": {
-    "@types/node": "^15.0.3",
+    "@types/node": "^20.12.12",
     "@types/nprogress": "^0.2.0",
-    "@types/react": "^17.0.5",
-    "@types/react-dom": "^17.0.4",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-modal": "^3.12.0",
     "autoprefixer": "^10.2.5",
     "postcss": "^8.2.15",
     "tailwindcss": "^2.1.2",
-    "typescript": "^4.2.4"
+    "typescript": "^5.4.5"
   },
   "prettier": {
     "printWidth": 120,
@@ -44,5 +43,8 @@
     "singleQuote": true,
     "jsxSingleQuote": true,
     "bracketSpacing": true
+  },
+  "engines": {
+    "node": ">=18.17.0"
   }
 }
