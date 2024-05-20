@@ -22,7 +22,7 @@ function App({ Component, pageProps }: AppProps) {
     <ThemeProvider attribute='class' defaultTheme={'system' ? 'dark' : 'system'} disableTransitionOnChange>
       <Meta />
       <Layout>
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode='wait'>
           <Component {...pageProps} key={router.route} />
         </AnimatePresence>
       </Layout>

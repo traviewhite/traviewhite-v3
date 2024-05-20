@@ -1,15 +1,10 @@
-const withPWA = require('next-pwa')
 const path = require('path')
 
-module.exports = withPWA({
-  pwa: {
-    dest: 'public',
-  },
+module.exports = {
   future: {
     webpack5: true,
     strictPostcssConfiguration: true,
   },
-  target: 'serverless',
   async Headers() {
     return [
       {
@@ -31,7 +26,7 @@ module.exports = withPWA({
   images: {
     domains: ['res.cloudinary.com'],
   },
-})
+}
 
 // https://securityheaders.com
 const ContentSecurityPolicy = `

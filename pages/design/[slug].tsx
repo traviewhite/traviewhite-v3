@@ -62,35 +62,25 @@ const DesignPages = ({ post }: Props) => {
 
 export default DesignPages
 
-interface GetPath {
-  items: I[]
-}
-interface GetProp {
-  items: I[]
-}
-interface I {
-  fields: { slug: string }
-}
-
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data: GetPath | undefined = await client.getEntries({
+  const data = await client.getEntries({
     content_type: 'design',
   })
   return {
-    paths: data.items.map((item: I) => `/design/${item.fields.slug}`) ?? [],
+    paths: data?.items.map((item) => `/design/${item.fields.slug}`) ?? [],
     fallback: true,
   }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
-  const data: GetProp | undefined = await client.getEntries({
+  const data = await client.getEntries({
     content_type: 'design',
     'fields.slug': params.slug,
   })
 
   return {
     props: {
-      post: data.items[0].fields ?? null,
+      post: data?.items[0].fields ?? null,
     },
     revalidate: 1,
   }

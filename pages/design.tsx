@@ -13,6 +13,8 @@ import InView from 'components/Animations/InView'
 const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   const [date, setDate] = useState<number>(2021)
 
+  const { data, dataYears } = design
+
   // 📝 TOGGLE
   // const useToggle = (initial = true) => {
   //   const [option, setOption] = useState<boolean>(initial)
@@ -44,10 +46,10 @@ const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) 
             ALL
           </button> */}
 
-          <YearsHeader design={design.dataY.items} setDate={setDate} />
+          <YearsHeader design={dataYears.items} setDate={setDate} />
         </div>
 
-        <DesignContent design={design.data.items} date={date} />
+        <DesignContent design={data.items} date={date} />
       </motion.ul>
     </Page>
   )
@@ -76,7 +78,7 @@ const YearsHeader = ({ design, setDate }: any) => {
         }
         return (
           <Link key={i} href={`#${y.fields.year}`}>
-            <a
+            <p
               className={`px-6 py-1.5 transition rounded-md tracking-wide 
           font-semibold hover:text-gray-100 hover:bg-gray-700
             ${
@@ -88,7 +90,7 @@ const YearsHeader = ({ design, setDate }: any) => {
               id={y.fields.year}
             >
               {y.fields.year}
-            </a>
+            </p>
           </Link>
         )
       })
@@ -175,20 +177,19 @@ const DesignItems = ({ data }: Props) => {
 export default Design
 
 export const getStaticProps: GetStaticProps = async () => {
-  // have all data for years come in here
   const data = await client.getEntries({
     content_type: 'year',
     'fields.title[match]': 'design',
   })
-  // grab the years here
-  const dataY = await client.getEntries({
+
+  const dataYears = await client.getEntries({
     content_type: 'year',
     'fields.title[match]': 'design',
-    select: 'sys.id,fields.year',
+    select: ['sys.id', 'fields.year'],
   })
   return {
     props: {
-      design: { data, dataY } ?? null,
+      design: { data, dataYears } ?? null,
     },
     revalidate: 1,
   }

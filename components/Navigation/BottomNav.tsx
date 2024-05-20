@@ -13,7 +13,7 @@ const BottomNav = ({ links }: Props) => {
           {links &&
             links.map((link) => (
               <Link key={link.label} href={link.href}>
-                <a
+                <p
                   className={`space-y-1 w-full h-full flex flex-col items-center justify-center ${
                     router.pathname === link.href
                       ? 'text-gray-800 dark:text-indigo-400'
@@ -22,7 +22,7 @@ const BottomNav = ({ links }: Props) => {
                 >
                   {link.icon}
                   <span className='text-xs text-gray-600 dark:text-gray-400'>{link.label}</span>
-                </a>
+                </p>
               </Link>
             ))}
         </div>
