@@ -115,7 +115,7 @@ const IntroSection = ({ data, about }: Props) => {
                 onRequestClose={closeModal}
                 contentLabel='modal-root'
               >
-                <AboutContent data={about} close={closeModal} />
+                <AboutContent data={about} close={closeModal} isOpen={modalIsOpen} />
               </Modal>
             </div>
           </motion.div>
