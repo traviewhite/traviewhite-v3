@@ -66,6 +66,9 @@ const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) 
 const YearsHeader = ({ design, setDate }: any) => {
   const router = useRouter()
 
+  const currentYear = router.asPath.split('#')[1]
+  const isActive = (year: number) => currentYear === year.toString()
+
   return design && design.length > 0 ? (
     design
       .sort((a: { fields: { year: number } }, b: { fields: { year: number } }) => b.fields.year - a.fields.year)
@@ -89,11 +92,7 @@ const YearsHeader = ({ design, setDate }: any) => {
             <p
               className={`px-6 py-1.5 transition rounded-md tracking-wide 
           font-semibold hover:text-gray-100 hover:bg-gray-700
-            ${
-              router.route === `design#${y.fields.year}`
-                ? 'dark:text-gray-100 bg-red-600'
-                : 'dark:text-gray-300 bg-gray-800'
-            }`}
+            ${isActive(y.fields.year) ? 'dark:text-gray-100 bg-gray-600' : 'dark:text-gray-300 bg-gray-800'}`}
               onClick={handleClick}
             >
               {y.fields.year}
