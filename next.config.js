@@ -20,7 +20,7 @@ module.exports = {
     autoPrerender: false,
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    remotePatterns: [{ hostname: 'res.cloudinary.com' }],
   },
 }
 

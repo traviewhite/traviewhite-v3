@@ -23,13 +23,11 @@ const Tnav: React.FC = () => {
       >
         <Link href='/'>
           <Image
+            fill
             src={tWhiteLogo}
             alt='traviewhite T logo'
             // height={60}
             // width={130}
-            layout='fill'
-            // objectFit='contain'
-            // objectPosition='left center'
           />
         </Link>
       </motion.div>
@@ -47,13 +45,11 @@ const Tnav: React.FC = () => {
     >
       <Link href='/'>
         <Image
+          fill
           src={tLogo}
           alt='traviewhite T logo'
           // height={60}
           // width={40}
-          layout='fill'
-          // objectFit='contain'
-          // objectPosition='left center'
         />
       </Link>
     </motion.div>

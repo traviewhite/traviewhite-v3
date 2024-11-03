@@ -11,7 +11,15 @@ import { fadeIn, stagger } from 'components/Animations/Motion'
 import InView from 'components/Animations/InView'
 
 const Design = ({ design }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+  const router = useRouter()
   const [date, setDate] = useState<number>(2021)
+
+  useEffect(() => {
+    const path = router.asPath.split('#')[1]
+    if (path) {
+      setDate(parseInt(path))
+    }
+  }, [router.asPath])
 
   const { data, dataYears } = design
 
@@ -86,8 +94,7 @@ const YearsHeader = ({ design, setDate }: any) => {
                 ? 'dark:text-gray-100 bg-red-600'
                 : 'dark:text-gray-300 bg-gray-800'
             }`}
-              onClick={(e) => handleClick(e)}
-              id={y.fields.year}
+              onClick={handleClick}
             >
               {y.fields.year}
             </p>
