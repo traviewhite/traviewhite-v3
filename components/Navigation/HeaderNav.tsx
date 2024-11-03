@@ -8,7 +8,7 @@ import { Props, P } from 'components/Navigation/Links'
 const HeaderNav = ({ links }: Props) => {
   const router = useRouter()
   return (
-    <header className=''>
+    <header className='mx-auto pt-6 px-6 max-w-screen-sm'>
       <nav className='w-full mb-6 flex items-center font-semibold text-md tracking-tight'>
         <Tnav />
         <div className='hidden sm:block'>

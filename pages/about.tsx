@@ -1,5 +1,4 @@
 import { GetStaticProps, InferGetServerSidePropsType } from 'next'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
@@ -23,6 +22,7 @@ const About = ({ about }: InferGetServerSidePropsType<typeof getStaticProps>) =>
 interface Props {
   data: P
   close?: any
+  isOpen?: boolean
 }
 interface P {
   image: [{ secure_url: string; width: number; height: number }]
@@ -39,8 +39,7 @@ interface P {
   }
 }
 
-export const AboutContent = ({ data, close }: Props) => {
-  const router = useRouter()
+export const AboutContent = ({ data, close, isOpen }: Props) => {
   const { title, description, resume } = data
   const resumeURL = resume.fields.file.url
 
@@ -52,23 +51,23 @@ export const AboutContent = ({ data, close }: Props) => {
       exit={{ opacity: 0 }}
       variants={stagger}
     >
-      <button
-        onClick={close}
-        className={`absolute p-1 -top-3 -left-3 z-10 ${
-          router.route === '/about' ? 'hidden' : 'block'
-        } rounded-full  text-red-100 bg-red-500 
+      {isOpen && (
+        <button
+          onClick={close}
+          className={`absolute p-1 -top-3 -left-3 z-10 rounded-full  text-red-100 bg-red-500 
         hover:bg-red-600 hover:text-red-200`}
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className='h-6 w-6'
-          fill='none'
-          viewBox='0 0 24 24'
-          stroke='currentColor'
         >
-          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
-        </svg>
-      </button>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className='h-6 w-6'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+          >
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
+          </svg>
+        </button>
+      )}
       <Link href='/about'>
         <div
           className='bg-gray-700 py-3 w-full rounded-t-xl flex justify-center items-center 
