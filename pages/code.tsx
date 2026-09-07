@@ -88,12 +88,11 @@ const CodeItems = ({ data }: Props) => {
     <motion.li className='mb-10 rounded-xl bg-gray-400 dark:bg-gray-800 shadow-lg relative' variants={fadeIn}>
       <a href={data.link} target='_blank' rel='noreferrer'>
         <Image
-          className='rounded-t-xl'
+          className='rounded-t-xl object-contain'
           src={data.image[0].secure_url}
           alt={data.title}
           width={data.image[0].width}
           height={data.image[0].height}
-          objectFit='contain'
         />
       </a>
 

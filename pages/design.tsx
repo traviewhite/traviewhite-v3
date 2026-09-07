@@ -164,12 +164,11 @@ const DesignItems = ({ data }: Props) => {
         variants={fadeIn}
       >
         <Image
-          className='rounded-t-xl'
+          className='rounded-t-xl object-contain'
           src={data.image[0].secure_url}
           alt={data.title}
           width={data.image[0].width}
           height={data.image[0].height}
-          objectFit='contain'
         />
         <div className='p-6 pt-3 sm:p-10 sm:pt-5'>
           <h3 className='tracking-normal'>{data.title}</h3>

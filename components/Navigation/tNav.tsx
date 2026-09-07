@@ -23,10 +23,16 @@ const Tnav: React.FC = () => {
           y: 2,
           transition: { duration: 0.1 },
         }}
-        className={`py-7 ${isHome ? 'px-16' : 'px-6'} mr-auto relative`}
+        className={`p-0 mr-auto`}
       >
         <Link href='/'>
-          <Image src={isHome ? tWhiteLogo : tLogo} alt='traviewhite T logo' layout='fill' />
+          <Image
+            src={isHome ? tWhiteLogo : tLogo}
+            alt='traviewhite T logo'
+            width={isHome ? 124 : 43}
+            height={56}
+            // className='h-auto w-auto'
+          />
         </Link>
       </motion.div>
     </AnimatePresence>

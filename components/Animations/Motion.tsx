@@ -1,36 +1,40 @@
-export const fadeIn = {
+import type { Variants } from 'framer-motion'
+
+export const fadeIn: Variants = {
   initial: {
     y: 30,
-    opacity: 0
+    opacity: 0,
   },
   animate: {
     y: 0,
     opacity: 1,
     transition: {
-      duration: .5,
-      ease: 'easeOut'
-    }
-  }
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
 }
-export const fadeInLeft = {
+
+export const fadeInLeft: Variants = {
   initial: {
     x: 10,
-    opacity: 0
+    opacity: 0,
   },
   animate: {
     x: 0,
     opacity: 1,
     transition: {
       delay: 0.1,
-      duration: .3,
-      ease: 'easeInOut'
-    }
-  }
+      duration: 0.3,
+      ease: 'easeInOut',
+    },
+  },
 }
-export const stagger = {
+
+export const stagger: Variants = {
   animate: {
     transition: {
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 }

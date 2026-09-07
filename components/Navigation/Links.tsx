@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react'
+
 const links = [
   {
     label: 'Code',
@@ -80,5 +82,5 @@ export interface Props {
 export interface P {
   label: string
   href: string
-  icon: JSX.Element
+  icon: ReactElement
 }

@@ -1,7 +1,7 @@
-import { useLayoutEffect, useState, Fragment } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 import { Props, P } from 'components/Navigation/Links'
 
@@ -29,7 +29,7 @@ const MoreMenu = ({ links }: Props) => {
         {({ open }) => (
           <>
             <div>
-              <Menu.Button
+              <MenuButton
                 className='inline-flex justify-center w-full py-1.5 px-3 text-md font-bold
               dark:text-gray-300 dark:hover:text-gray-50 rounded-md bg-gray-800 hover:bg-gray-700 focus:outline-none focus-visible:ring-2 
               focus-visible:ring-white focus-visible:ring-opacity-75 transition'
@@ -38,7 +38,7 @@ const MoreMenu = ({ links }: Props) => {
                   <span className='ml-1'>{width > smScreen ? 'More' : 'Menu'}</span>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
-                    className='h-5 w-5 ml-1'
+                    className={`h-5 w-5 ml-1 transition ${open ? 'rotate-180' : ''}`}
                     viewBox='0 0 20 20'
                     fill='currentColor'
                   >
@@ -49,52 +49,42 @@ const MoreMenu = ({ links }: Props) => {
                     />
                   </svg>
                 </div>
-              </Menu.Button>
+              </MenuButton>
             </div>
-            <Transition
-              show={open}
-              as={Fragment}
-              enter='transition ease-out duration-100'
-              enterFrom='transform opacity-0 scale-95'
-              enterTo='transform opacity-100 scale-100'
-              leave='transition ease-in duration-75'
-              leaveFrom='transform opacity-100 scale-100'
-              leaveTo='transform opacity-0 scale-95'
+            <MenuItems
+              transition
+              className='absolute right-0 z-10 p-2 mt-2 origin-top-right bg-gray-800 divide-y
+                divide-gray-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
+                transition ease-out duration-100 data-[closed]:opacity-0 data-[closed]:scale-95'
             >
-              <Menu.Items
-                static
-                className='absolute right-0 z-10 p-2 mt-2 origin-top-right bg-gray-800 divide-y
-                divide-gray-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
-              >
-                {links &&
-                  links.slice(width > smScreen ? 2 : 0).map((link: P) => (
-                    <Link key={link.label} href={link.href}>
+              {links &&
+                links.slice(width > smScreen ? 2 : 0).map((link: P) => (
+                  <MenuItem key={link.label}>
+                    <Link href={link.href}>
                       <div className='px-1 py-1'>
-                        <Menu.Item>
-                          <button
-                            className={`transition group flex rounded-md items-center w-full py-1 px-2 text-base 
+                        <span
+                          className={`transition group flex rounded-md items-center w-full py-1 px-2 text-base 
                               font-semibold tracking-tight
                               ${
                                 router.route === link.href
                                   ? 'text-gray-800 dark:text-gray-50'
                                   : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
                               }`}
+                        >
+                          <span
+                            className={`mr-1 ${
+                              router.route === link.href ? 'dark:text-indigo-300' : 'dark:text-gray-400'
+                            }`}
                           >
-                            <span
-                              className={`mr-1 ${
-                                router.route === link.href ? 'dark:text-indigo-300' : 'dark:text-gray-400'
-                              }`}
-                            >
-                              {link.icon}
-                            </span>
-                            {link.label}
-                          </button>
-                        </Menu.Item>
+                            {link.icon}
+                          </span>
+                          {link.label}
+                        </span>
                       </div>
                     </Link>
-                  ))}
-              </Menu.Items>
-            </Transition>
+                  </MenuItem>
+                ))}
+            </MenuItems>
           </>
         )}
       </Menu>

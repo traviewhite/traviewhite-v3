@@ -1,9 +1,5 @@
-const path = require('path')
-
-module.exports = {
-  // future: {
-  //   strictPostcssConfiguration: true,
-  // },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   async headers() {
     return [
       {
@@ -16,13 +12,12 @@ module.exports = {
       },
     ]
   },
-  devIndicators: {
-    autoPrerender: false,
-  },
   images: {
-    remotePatterns: [{ hostname: 'res.cloudinary.com' }],
+    remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
   },
 }
+
+module.exports = nextConfig
 
 // https://securityheaders.com
 const ContentSecurityPolicy = `

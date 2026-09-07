@@ -210,12 +210,11 @@ const IntroFeatured = ({ featured }: PropsF) => {
         <div className='mt-6 w-full relative'>
           <Link href={featured.itemLink}>
             <Image
+              className='object-cover object-top'
               src={featured.image[0].secure_url}
               alt={featured.itemTitle}
               width={featured.image[0].width}
               height={featured.image[0].height}
-              objectFit='cover'
-              objectPosition='top center'
             />
           </Link>
         </div>

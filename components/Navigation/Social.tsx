@@ -1,7 +1,9 @@
+import type { ReactElement } from 'react'
+
 interface P {
   label: string
   href: string
-  icon: JSX.Element
+  icon: ReactElement
 }
 const Social = () => {
   const socialsData: P[] = [
